@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.PreUpdate;
 import javax.validation.Valid;
 import jobcafe.model.User;
 import jobcafe.service.UserService;
@@ -30,6 +32,13 @@ public class UserController {
 
     @PutMapping("/user")
     public User update(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @PutMapping("/user/password")
+    public User updatePassword(@RequestBody String email, String password) {
+        User user = userService.findByEmail(email);
+        user.setPassword(password);
         return userService.save(user);
     }
 
