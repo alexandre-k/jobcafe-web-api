@@ -29,7 +29,7 @@ public class PasswordReminder {
         if (code == fakeCache) {
             return "OK";
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND);
+            return "BAD";
         }
     }
 
