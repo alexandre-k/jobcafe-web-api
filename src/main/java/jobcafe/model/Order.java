@@ -13,11 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Data
-public class Transaction {
+public class Order {
 
     @Id
     private String id;
@@ -29,4 +30,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(referencedColumnName = "email")
     private User transactor;
+
+    public Order(Date time, User email) {
+        this.deliveryEstimate = time;
+        this.transactor = email;
+    }
 }
