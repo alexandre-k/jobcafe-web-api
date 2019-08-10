@@ -40,7 +40,7 @@ public class User {
     private Plan membership;
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
-    private Payment paymentMethod;
+    private PaymentMethod paymentMethod;
     @ColumnDefault("true")
     private Boolean isNewMessageNotified;
     @ColumnDefault("true")
