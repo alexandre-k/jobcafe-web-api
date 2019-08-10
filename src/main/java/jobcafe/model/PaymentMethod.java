@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +17,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Payment {
+public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -42,4 +43,7 @@ public class Payment {
     private String postalCode;
     @NotBlank
     private String country;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "email")
+    private User payer;
 }
