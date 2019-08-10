@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Plan {
+public class SubscriptionPlan {
     @Id
     private String label;
     @NotBlank

@@ -19,7 +19,7 @@ import lombok.Data;
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class JUser {
     @Id
     @Email
     private String email;
@@ -37,10 +37,7 @@ public class User {
     private Profession profession;
     @OneToOne
     @JoinColumn(referencedColumnName = "label")
-    private Plan membership;
-    @OneToOne
-    @JoinColumn(referencedColumnName = "id")
-    private PaymentMethod paymentMethod;
+    private SubscriptionPlan membership;
     @ColumnDefault("true")
     private Boolean isNewMessageNotified;
     @ColumnDefault("true")

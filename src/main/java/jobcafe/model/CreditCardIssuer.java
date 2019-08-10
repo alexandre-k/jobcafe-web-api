@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class CreditCard {
+public class CreditCardIssuer {
     @Id
     private String issuer;
 }

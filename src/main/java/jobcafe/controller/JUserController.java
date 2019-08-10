@@ -8,36 +8,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.PreUpdate;
 import javax.validation.Valid;
-import jobcafe.model.User;
-import jobcafe.service.UserService;
+
+import jobcafe.model.JUser;
+import jobcafe.service.JUserService;
 
 @RestController
-public class UserController {
+public class JUserController {
 
     @Autowired
-    private UserService userService;
+    private JUserService userService;
 
     @PostMapping("/user")
-    public User create(@Valid @RequestBody User user) {
+    public JUser create(@Valid @RequestBody JUser user) {
         return userService.save(user);
     }
 
     @GetMapping("/user")
-    public Iterable<User> read() {
+    public Iterable<JUser> read() {
         return userService.findAll();
     }
 
     @PutMapping("/user")
-    public User update(@RequestBody User user) {
+    public JUser update(@RequestBody JUser user) {
         return userService.save(user);
     }
 
     @PutMapping("/user/password")
-    public User updatePassword(@RequestBody String email, String password) {
-        User user = userService.findByEmail(email);
+    public JUser updatePassword(@RequestBody String email, String password) {
+        JUser user = userService.findByEmail(email);
         user.setPassword(password);
         return userService.save(user);
     }
@@ -48,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{email}")
-    User findByEmail(@PathVariable String email) {
+    JUser findByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
     }
 }

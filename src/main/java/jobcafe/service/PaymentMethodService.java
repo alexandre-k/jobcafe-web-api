@@ -2,8 +2,8 @@ package jobcafe.service;
 
 import org.springframework.data.repository.CrudRepository;
 import jobcafe.model.PaymentMethod;
-import jobcafe.model.User;
+import jobcafe.model.JUser;
 
 public interface PaymentMethodService extends CrudRepository<PaymentMethod, Integer> {
-    Iterable<PaymentMethod> findByUser(User user);
+    PaymentMethod findByPayerEmail(String payer);
 }

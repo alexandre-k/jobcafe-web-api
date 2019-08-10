@@ -24,10 +24,10 @@ public class Ticket {
     private String title;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")
-    private User owner;
+    private JUser owner;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")
-    private User operator;
+    private JUser operator;
     @OneToOne
     @JoinColumn(referencedColumnName = "label")
     private TicketCategory category;

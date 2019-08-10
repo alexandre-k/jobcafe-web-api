@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jobcafe.model.Ticket;
-import jobcafe.model.User;
+import jobcafe.service.JUserService;
 import jobcafe.service.TicketService;
-import jobcafe.service.UserService;
 
 @RestController
 public class TicketController {
@@ -17,7 +16,7 @@ public class TicketController {
     private TicketService ticketService;
 
     @Autowired
-    private UserService userService;
+    private JUserService userService;
 
     @GetMapping("/ticket")
     public Iterable<Ticket> findByOwner(@RequestParam String owner) {

@@ -23,7 +23,7 @@ public class Message {
     private Integer id;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")
-    private User author;
+    private JUser author;
     @NotBlank
     private String content;
     @OneToOne

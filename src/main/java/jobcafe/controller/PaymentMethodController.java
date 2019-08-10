@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import jobcafe.model.PaymentMethod;
-import jobcafe.model.User;
+import jobcafe.model.JUser;
 import jobcafe.service.PaymentMethodService;
-import jobcafe.service.UserService;
+import jobcafe.service.JUserService;
 
 @RestController
 public class PaymentMethodController {
@@ -22,7 +22,7 @@ public class PaymentMethodController {
     private PaymentMethodService paymentMethodService;
 
     @Autowired
-    private UserService userService;
+    private JUserService userService;
 
     @PostMapping("/payment-method")
     public PaymentMethod create(@Valid @RequestBody PaymentMethod paymentMethod) {
@@ -30,8 +30,7 @@ public class PaymentMethodController {
     }
 
     @GetMapping("/payment-method/{email}")
-    public Iterable<PaymentMethod> getAll(@PathVariable String email) {
-        User user = userService.findByEmail(email);
-        return paymentMethodService.findByUser(user);
+    public PaymentMethod getAll(@PathVariable String email) {
+        return paymentMethodService.findByPayerEmail(email);
     }
 }

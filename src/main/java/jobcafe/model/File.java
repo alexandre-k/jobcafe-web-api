@@ -21,5 +21,5 @@ public class File {
     private String path;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")
-    private User email;
+    private JUser user;
 }

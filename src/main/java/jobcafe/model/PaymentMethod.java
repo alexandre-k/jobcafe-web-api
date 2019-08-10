@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class PaymentMethod {
     private Integer id;
     @OneToOne
     @JoinColumn(referencedColumnName = "issuer")
-    private CreditCard card;
+    private CreditCardIssuer card;
     @NotBlank
     private String cardNumber;
     @NotBlank
@@ -43,7 +44,6 @@ public class PaymentMethod {
     private String postalCode;
     @NotBlank
     private String country;
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "email")
-    private User payer;
+    private String payerEmail;
+
 }
