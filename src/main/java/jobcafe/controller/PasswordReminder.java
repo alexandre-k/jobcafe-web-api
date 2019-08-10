@@ -22,7 +22,7 @@ public class PasswordReminder {
 
     @PutMapping("/reminder")
     public String verifyCode(@RequestBody String code) {
-        if (code == fakeCache) {
+        if (code.equals(fakeCache)) {
             return "OK";
         } else {
             return "BAD";
