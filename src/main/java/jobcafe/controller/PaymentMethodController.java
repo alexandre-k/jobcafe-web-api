@@ -30,7 +30,12 @@ public class PaymentMethodController {
     }
 
     @GetMapping("/payment-method/{email}")
-    public PaymentMethod getAll(@PathVariable String email) {
+    public PaymentMethod getByEmail(@PathVariable String email) {
         return paymentMethodService.findByPayerEmail(email);
+    }
+
+    @GetMapping("/payment-method")
+    public Iterable<PaymentMethod> getAll() {
+        return paymentMethodService.findAll();
     }
 }
