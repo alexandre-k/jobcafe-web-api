@@ -15,6 +15,7 @@ import jobcafe.model.Order;
 import jobcafe.model.Plan;
 import jobcafe.model.User;
 import jobcafe.service.OrderService;
+import jobcafe.service.PlanService;
 import jobcafe.service.UserService;
 
 @RestController
@@ -26,15 +27,19 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PlanService planService;
+
     @PostMapping("/order")
-    public Order create(@Valid @RequestBody Plan plan, String email) {
+    public Order create(@Valid @RequestBody String planLabel, String email) {
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         // Add 3 business days
         calendar.add(Calendar.DATE, 3);
         User user = userService.findByEmail(email);
-        Order order = new Order(calendar.getTime(), user);
+        Plan plan = planService.findByLabel(planLabel);
+        Order order = new Order(calendar.getTime(), user, plan);
         return orderService.save(order);
     }
 

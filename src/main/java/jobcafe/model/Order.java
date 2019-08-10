@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -30,9 +31,13 @@ public class Order {
     @ManyToOne
     @JoinColumn(referencedColumnName = "email")
     private User transactor;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "label")
+    private Plan plan;
 
-    public Order(Date time, User email) {
+    public Order(Date time, User email, Plan plan) {
         this.deliveryEstimate = time;
         this.transactor = email;
+        this.plan = plan;
     }
 }
