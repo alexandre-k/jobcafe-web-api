@@ -13,4 +13,6 @@ public class SubscriptionPlan {
     private String label;
     @NotBlank
     private Double price;
+    @NotBlank
+    private Double tax;
 }
