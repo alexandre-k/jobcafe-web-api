@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
@@ -48,7 +49,12 @@ public class PlanOrderController {
     public Iterable<PlanOrder> getAll() { return planOrderService.findAll(); }
 
     @GetMapping("/order/{email}")
-    public Iterable<PlanOrder> getOrdersByUser(String email) {
+    public Iterable<PlanOrder> getOrdersByUser(@RequestParam String email) {
         return planOrderService.findByTransactorEmail(email);
+    }
+
+    @GetMapping("/order/{id}")
+    public PlanOrder getOrderById(@RequestParam String id) {
+        return planOrderService.findById(id);
     }
 }
