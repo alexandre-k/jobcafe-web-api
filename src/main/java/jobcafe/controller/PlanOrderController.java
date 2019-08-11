@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import jobcafe.model.PlanOrder;
@@ -32,16 +33,8 @@ public class PlanOrderController {
 
     @PostMapping("/plan-order")
     public PlanOrder create(@Valid @RequestBody String planLabel, String email) {
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        // Add 3 business days
-        calendar.add(Calendar.DATE, 3);
         SubscriptionPlan plan = subscriptionPlanService.findByLabel(planLabel);
-        PlanOrder order = new PlanOrder();
-        order.setDeliveryEstimate(calendar.getTime());
-        order.setTransactorEmail(email);
-        order.setPlan(plan);
+        PlanOrder order = new PlanOrder(email, plan);
         return planOrderService.save(order);
     }
 
@@ -55,6 +48,10 @@ public class PlanOrderController {
 
     @GetMapping("/order/{id}")
     public PlanOrder getOrderById(@RequestParam String id) {
-        return planOrderService.findById(id);
+        Optional maybeOrder = planOrderService.findById(id);
+        if (maybeOrder.isPresent()) {
+            return (PlanOrder) maybeOrder.get();
+        }
+        return new PlanOrder();
     }
 }
