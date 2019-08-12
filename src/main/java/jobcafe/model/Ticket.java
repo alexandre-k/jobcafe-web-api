@@ -2,6 +2,8 @@ package jobcafe.model;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,9 +15,11 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +38,13 @@ public class Ticket {
     @NotBlank
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    private Date createdDate;
+
+    public Ticket(String title, JUser owner, TicketCategory category) {
+        this.title = title;
+        this.owner = owner;
+        this.category = category;
+        this.status = TicketStatus.OPEN;
+    }
 }
