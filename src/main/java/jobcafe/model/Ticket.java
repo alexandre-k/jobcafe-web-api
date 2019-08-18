@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
+    @NotNull
     private String title;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")
@@ -35,7 +35,7 @@ public class Ticket {
     @OneToOne
     @JoinColumn(referencedColumnName = "label")
     private TicketCategory category;
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
     @ColumnDefault("CURRENT_TIMESTAMP")

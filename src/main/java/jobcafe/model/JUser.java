@@ -6,6 +6,8 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
@@ -31,6 +33,7 @@ public class JUser {
     private String lastName;
     @NotBlank
     private String password;
+    private Integer passwordLength;
     private String phone;
     @OneToOne
     @JoinColumn(referencedColumnName = "label")

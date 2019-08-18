@@ -1,12 +1,13 @@
 package jobcafe.controller;
 
-import org.hibernate.validator.constraints.URL;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +22,9 @@ import java.util.Optional;
 
 import jobcafe.model.JUser;
 import jobcafe.model.Message;
+import jobcafe.model.NewTicket;
 import jobcafe.model.Ticket;
 import jobcafe.model.TicketCategory;
-import jobcafe.model.TicketStatus;
 import jobcafe.service.JUserService;
 import jobcafe.service.MessageService;
 import jobcafe.service.TicketService;
@@ -46,49 +47,66 @@ public class TicketController {
             String.valueOf(this.getClass().getResource("pictures")));
 
     @GetMapping("/ticket")
-    public Iterable<Ticket> findTicketsByOwner(@RequestParam String owner) {
-        return ticketService.findByOwner(
-                userService.findByEmail(owner));
+    public ResponseEntity findTicketsByOwner(@RequestParam String owner) {
+        Optional<JUser> user = userService.findByEmail(owner);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(ticketService.findByOwner(user.get()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Ticket with owner " + owner + " not found!", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/ticket/{id}")
-    public Ticket findTicketById(@PathVariable("id") int id) {
-        return ticketService.findById(id).get();
+    public ResponseEntity findTicketById(@PathVariable("id") int ticketId) {
+        Optional<Ticket> maybeTicket = ticketService.findById(ticketId);
+        if (maybeTicket.isPresent()) {
+            return new ResponseEntity<>(maybeTicket.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No ticket found with ID " + ticketId, HttpStatus.BAD_REQUEST);
     }
 
     @PatchMapping("/ticket/{id}")
-    public Ticket updateStatus(@PathVariable("id") int ticketId) {
+    public ResponseEntity switchStatus(@PathVariable("id") int ticketId) {
         Optional<Ticket> maybeTicket = ticketService.findById(ticketId);
-        Ticket ticket = maybeTicket.get();
-        switch (ticket.getStatus()) {
-            case OPEN: ticket.setStatus(CLOSED);
-            case CLOSED: ticket.setStatus(OPEN);
-        };
-        return ticketService.save(ticket);
+        if (maybeTicket.isPresent()) {
+            Ticket ticket = maybeTicket.get();
+            switch (ticket.getStatus()) {
+                case OPEN:
+                    ticket.setStatus(CLOSED);
+                    break;
+                case CLOSED:
+                   ticket.setStatus(OPEN);
+                    break;
+            };
+            System.out.println("NEW STATUS " + ticket.getStatus());
+            return new ResponseEntity<>(ticketService.save(ticket), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No ticket found with ID " + ticketId, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/ticket")
-    public Ticket createTicket(@RequestBody(required = false) String title, JUser owner, String category, String content, MultipartFile attachedFile) {
+    public ResponseEntity createTicket(@RequestBody NewTicket newTicket) {
+        Optional<JUser> user = userService.findByEmail(newTicket.getOwner());
+        Ticket ticket = new Ticket(newTicket.getTitle(), user.get(), new TicketCategory(newTicket.getCategory()));
+//        if (!attachedFile.isEmpty()) {
+//            String imageName = attachedFile.getOriginalFilename();
+//            System.out.println("***** IMAGE " + imageName);
+//            try {
+//                InputStream imageContent = attachedFile.getInputStream();
+//                Path destination = Paths.get(picturesLocation + owner.getEmail() + title + imageName);
+//                System.out.println("***** DESTINATION " + destination);
+//                Files.copy(imageContent, destination);
+//                Message message = new Message(owner, content, ticket, destination.toUri());
+//            } catch(IOException e) {
+//                e.printStackTrace();
+//                return new ResponseEntity<>("Unable to create ticket", HttpStatus.BAD_REQUEST);
+//            }
+//        } else {
+            Message message = new Message(user.get(), newTicket.getContent(), ticket);
 
-        Ticket ticket = new Ticket(title, owner, new TicketCategory(category));
-
-        if (!attachedFile.isEmpty()) {
-            String imageName = attachedFile.getOriginalFilename();
-            System.out.println("***** IMAGE " + imageName);
-            try {
-                InputStream imageContent = attachedFile.getInputStream();
-                Path destination = Paths.get(picturesLocation + owner.getEmail() + title + imageName);
-                System.out.println("***** DESTINATION " + destination);
-                Files.copy(imageContent, destination);
-                Message message = new Message(owner, content, ticket, destination.toUri());
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Message message = new Message(owner, content, ticket);
-        }
-
-        return ticketService.save(ticket);
+            ticketService.save(ticket);
+            messageService.save(message);
+            return new ResponseEntity<>("Saved", HttpStatus.CREATED);
+        // }
     }
 
 //    @GetMapping("/ticket/{id}")

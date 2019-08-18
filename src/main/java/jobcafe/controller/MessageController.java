@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Optional;
 
 import jobcafe.model.JUser;
 import jobcafe.model.Message;
+import jobcafe.model.NewMessage;
 import jobcafe.model.Ticket;
 import jobcafe.service.JUserService;
 import jobcafe.service.MessageService;
@@ -37,15 +39,15 @@ public class MessageController {
     }
 
     @PostMapping("/message")
-    public Message create(@RequestBody String author, String content, Integer ticketId, String createdDate, MultipartFile attachedFile) {
-        System.out.println("GOT A NEW MESSAGE !!" + content);
-        if (!attachedFile.isEmpty()) {
-            // TODO
-            System.out.println("Add logic to save an attached file");
-        }
-        Optional<Ticket> ticket = ticketService.findById(ticketId);
-        JUser user = jUserService.findByEmail(author);
-        Message message = new Message(user, content, ticket.get());
-        return message;
+    public Message add(@RequestBody NewMessage newMessage) {// , MultipartFile attachedFile) {
+//        if (!attachedFile.isEmpty()) {
+//            // TODO
+//            System.out.println("Add logic to save an attached file");
+//        }
+        Message message = new Message(
+                newMessage.getAuthor(),
+                newMessage.getContent(),
+                ticketService.findById(newMessage.getTicketId()).get());
+        return messageService.save(message);
     }
 }

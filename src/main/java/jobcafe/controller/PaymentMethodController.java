@@ -1,12 +1,16 @@
 package jobcafe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -29,13 +33,16 @@ public class PaymentMethodController {
         return paymentMethodService.save(paymentMethod);
     }
 
-    @GetMapping("/payment-method/{email}")
-    public PaymentMethod getByEmail(@PathVariable String email) {
-        return paymentMethodService.findByPayerEmail(email);
-    }
-
     @GetMapping("/payment-method")
-    public Iterable<PaymentMethod> getAll() {
-        return paymentMethodService.findAll();
+    public ResponseEntity getByEmail(@RequestParam(required = false) String email) {
+        if (email == null) return new ResponseEntity<>(paymentMethodService.findAll(), HttpStatus.OK);
+        Optional<JUser> user = userService.findByEmail(email);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(paymentMethodService.findByPayer(user.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(
+                    "No payment method found for user with email: " + email,
+                    HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.URI;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Message {
     private JUser author;
     @NotBlank
     private String content;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private Ticket ticket;
     @CreationTimestamp

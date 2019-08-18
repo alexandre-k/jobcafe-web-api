@@ -5,5 +5,5 @@ import jobcafe.model.PaymentMethod;
 import jobcafe.model.JUser;
 
 public interface PaymentMethodService extends CrudRepository<PaymentMethod, Integer> {
-    PaymentMethod findByPayerEmail(String payer);
+    PaymentMethod findByPayer(JUser payer);
 }

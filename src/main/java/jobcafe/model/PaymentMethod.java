@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -29,9 +31,9 @@ public class PaymentMethod {
     private String cardNumber;
     @NotBlank
     private String cardholderName;
-    @NotBlank
+    @NotNull
     private Integer cvv;
-    @NotBlank
+    @NotNull
     @JsonFormat(pattern="YYYY/mm")
     private Date expirationDate;
     @NotBlank
@@ -44,6 +46,8 @@ public class PaymentMethod {
     private String postalCode;
     @NotBlank
     private String country;
-    private String payerEmail;
+    @OneToOne(targetEntity = JUser.class)
+    @JoinColumn(referencedColumnName = "email")
+    JUser payer;
 
 }

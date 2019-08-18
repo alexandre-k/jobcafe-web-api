@@ -1,7 +1,11 @@
 package jobcafe.controller;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +16,8 @@ import java.util.Date;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
+import jobcafe.model.NewOrder;
 import jobcafe.model.PlanOrder;
 import jobcafe.model.SubscriptionPlan;
 import jobcafe.model.JUser;
@@ -31,27 +37,32 @@ public class PlanOrderController {
     @Autowired
     private SubscriptionPlanService subscriptionPlanService;
 
-    @PostMapping("/plan-order")
-    public PlanOrder create(@Valid @RequestBody String planLabel, String email) {
-        SubscriptionPlan plan = subscriptionPlanService.findByLabel(planLabel);
-        PlanOrder order = new PlanOrder(email, plan);
-        return planOrderService.save(order);
+    @PostMapping("/order")
+    public ResponseEntity create(@Valid @RequestBody NewOrder newOrder) {
+        SubscriptionPlan plan = subscriptionPlanService.findByLabel(newOrder.getLabel());
+        Optional<JUser> maybeTransactor = juserService.findByEmail(newOrder.getOrderer());
+        if (maybeTransactor.isPresent()) {
+            PlanOrder order = new PlanOrder(maybeTransactor.get(), plan);
+            return new ResponseEntity<>(planOrderService.save(order), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(
+                    "No transactor registered with email: " + newOrder.getOrderer(),
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/order")
-    public Iterable<PlanOrder> getAll() { return planOrderService.findAll(); }
-
-    @GetMapping("/order/{email}")
-    public Iterable<PlanOrder> getOrdersByUser(@RequestParam String email) {
+    public Iterable<PlanOrder> getOrders(@RequestParam(required = false) String email) {
+        if (email == null) return planOrderService.findAll();
         return planOrderService.findByTransactorEmail(email);
     }
 
     @GetMapping("/order/{id}")
-    public PlanOrder getOrderById(@RequestParam String id) {
+    public ResponseEntity getOrderById(@PathVariable String id) {
         Optional maybeOrder = planOrderService.findById(id);
         if (maybeOrder.isPresent()) {
-            return (PlanOrder) maybeOrder.get();
+            return new ResponseEntity<>(maybeOrder.get(), HttpStatus.OK);
         }
-        return new PlanOrder();
+        return new ResponseEntity<>("No order found", HttpStatus.NOT_FOUND);
     }
 }
