@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,19 +20,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Email;
+
+import jobcafe.EmailService;
 import jobcafe.model.NewCode;
 
 @RestController
 public class PasswordReminder {
 
     private HashMap<String, Date> cache = new HashMap<>();
-    private Integer cacheEntriesExpirationTimeSec = 30;
+    private Integer cacheEntriesExpirationTimeSec = 120;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/reminder")
     public String generateCode(@RequestBody NewCode newCode) {
-
         String code = String.format("%04d", new Random().nextInt(9999));
-        System.out.println("code: " + code);
+        emailService.send(
+                newCode.getEmail(),
+                "Job Cafe: Code to create a new password",
+                "A code to create a new password has been requested. Your code is:\n\t" + code);
         cache.put(newCode.getEmail()+ ":" + code, new Date());
         return "generated";
     }
