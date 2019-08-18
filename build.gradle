@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	// implementation 'org.springframework.boot:spring-boot-starter-security'
 	compile 'com.google.guava:guava:28.0-jre'
 	implementation 'org.springframework.data:spring-data-rest-hal-browser'
