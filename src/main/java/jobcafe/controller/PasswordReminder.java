@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.internet.AddressException;
 import javax.validation.constraints.Email;
 
 import jobcafe.EmailService;
@@ -35,14 +36,14 @@ public class PasswordReminder {
     private EmailService emailService;
 
     @PostMapping("/reminder")
-    public String generateCode(@RequestBody NewCode newCode) {
+    public ResponseEntity generateCode(@RequestBody NewCode newCode) throws AddressException {
         String code = String.format("%04d", new Random().nextInt(9999));
         emailService.send(
                 newCode.getEmail(),
                 "Job Cafe: Code to create a new password",
                 "A code to create a new password has been requested. Your code is:\n\t" + code);
         cache.put(newCode.getEmail()+ ":" + code, new Date());
-        return "generated";
+        return new ResponseEntity<>("Code generated.", HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/reminder")
@@ -50,7 +51,9 @@ public class PasswordReminder {
         String key = receivedCode.getEmail() + ":" + receivedCode.getCode();
         this.cleanUp(cache);
         if (!cache.containsKey(key)) {
-            return new ResponseEntity<>("Code expired or wrong.", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(
+                    "Code expired or wrong.",
+                    HttpStatus.NOT_ACCEPTABLE);
         } else {
             cache.remove(key);
             return new ResponseEntity<>("OK.", HttpStatus.ACCEPTED);

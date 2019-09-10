@@ -45,6 +45,7 @@ public class JUserController {
                 .sha512()
                 .hashString(user.getPassword(), StandardCharsets.UTF_8)
                 .toString());
+        user.setProfilePicture("https://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png");
         emailService.send(
                 user.getEmail(),
                 "Welcome to JobCafe",
