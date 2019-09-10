@@ -27,9 +27,9 @@ VALUES ('MasterCard', 'John Doe', '1111-1111-1111-1111', 111, PARSEDATETIME('201
 INSERT INTO payment_method (card_issuer, cardholder_name, card_number, cvv, expiration_date, address, city, postal_code, state_province, country, payer_email)
 VALUES ('Visa', 'Jane Doe', '2222-2222-2222-2222', 222, PARSEDATETIME('2010/12/01', 'yyyy/mm/dd'), 'Shimotakaido 8-21-5', 'Tokyo', 'Suginami', '112-2103', 'Tokyo', 'jane.doe@gmail.com');
 
-INSERT INTO ticket (title, owner_email, operator_email, category_label, status) VALUES ('Houston, I got a problem', 'john.doe@gmail.com', 'sarah.connor@gmail.com', 'Tutorial', 'OPEN');
-INSERT INTO ticket (title, owner_email, operator_email, category_label, status) VALUES ('How to make a pizza', 'john.doe@gmail.com', 'david.bowie@gmail.com', 'Guide', 'CLOSED');
-INSERT INTO ticket (title, owner_email, operator_email, category_label, status) VALUES ('I do not have anymore a problem', 'john.doe@gmail.com', 'sarah.connor@gmail.com', 'Guide', 'CLOSED');
+INSERT INTO ticket (title, owner_email, operator_email, category_label, is_open) VALUES ('Houston, I got a problem', 'john.doe@gmail.com', 'sarah.connor@gmail.com', 'Tutorial', true);
+INSERT INTO ticket (title, owner_email, operator_email, category_label, is_open) VALUES ('How to make a pizza', 'john.doe@gmail.com', 'david.bowie@gmail.com', 'Guide', false);
+INSERT INTO ticket (title, owner_email, operator_email, category_label, is_open) VALUES ('I do not have anymore a problem', 'john.doe@gmail.com', 'sarah.connor@gmail.com', 'Guide', false);
 
 INSERT INTO message (author_email, content, ticket_id) VALUES ('john.doe@gmail.com', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 1);
 INSERT INTO message (author_email, content, ticket_id) VALUES ('sarah.connor@gmail.com', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 1);

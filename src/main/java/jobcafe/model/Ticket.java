@@ -5,8 +5,6 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,8 +34,7 @@ public class Ticket {
     @JoinColumn(referencedColumnName = "label")
     private TicketCategory category;
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private TicketStatus status;
+    private boolean isOpen;
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Date createdDate;
 
@@ -45,6 +42,6 @@ public class Ticket {
         this.title = title;
         this.owner = owner;
         this.category = category;
-        this.status = TicketStatus.OPEN;
+        this.isOpen = true;
     }
 }

@@ -29,8 +29,6 @@ import jobcafe.service.JUserService;
 import jobcafe.service.MessageService;
 import jobcafe.service.TicketService;
 
-import static jobcafe.model.TicketStatus.*;
-
 @RestController
 public class TicketController {
 
@@ -50,7 +48,9 @@ public class TicketController {
     public ResponseEntity findTicketsByOwner(@RequestParam String owner) {
         Optional<JUser> user = userService.findByEmail(owner);
         if (user.isPresent()) {
-            return new ResponseEntity<>(ticketService.findByOwner(user.get()), HttpStatus.OK);
+            var result = ticketService.findByOwner(user.get());
+            System.out.println("******************* Found these tickets: " + result);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>("Ticket with owner " + owner + " not found!", HttpStatus.BAD_REQUEST);
     }
@@ -69,15 +69,6 @@ public class TicketController {
         Optional<Ticket> maybeTicket = ticketService.findById(ticketId);
         if (maybeTicket.isPresent()) {
             Ticket ticket = maybeTicket.get();
-            switch (ticket.getStatus()) {
-                case OPEN:
-                    ticket.setStatus(CLOSED);
-                    break;
-                case CLOSED:
-                   ticket.setStatus(OPEN);
-                    break;
-            };
-            System.out.println("NEW STATUS " + ticket.getStatus());
             return new ResponseEntity<>(ticketService.save(ticket), HttpStatus.OK);
         }
         return new ResponseEntity<>("No ticket found with ID " + ticketId, HttpStatus.BAD_REQUEST);
