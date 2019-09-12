@@ -5,6 +5,8 @@ WORKDIR /
 RUN mkdir /opt/webapi
 ADD . /opt/webapi
 
+WORKDIR /opt/webapi
+
 RUN gradle build
 
 EXPOSE 8089
