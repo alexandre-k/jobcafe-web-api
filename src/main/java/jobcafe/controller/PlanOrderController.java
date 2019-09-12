@@ -52,9 +52,9 @@ public class PlanOrderController {
     }
 
     @GetMapping("/order")
-    public Iterable<PlanOrder> getOrders(@RequestParam(required = false) String email) {
-        if (email == null) return planOrderService.findAll();
-        return planOrderService.findByTransactorEmail(email);
+    public PlanOrder getOrders(@RequestParam(required = false) String email) {
+        if (email == null) return planOrderService.findAll().iterator().next();
+        return planOrderService.findByTransactorEmail(email).iterator().next();
     }
 
     @GetMapping("/order/{id}")

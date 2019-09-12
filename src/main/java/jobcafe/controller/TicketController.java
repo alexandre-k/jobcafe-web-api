@@ -49,7 +49,6 @@ public class TicketController {
         Optional<JUser> user = userService.findByEmail(owner);
         if (user.isPresent()) {
             var result = ticketService.findByOwner(user.get());
-            System.out.println("******************* Found these tickets: " + result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>("Ticket with owner " + owner + " not found!", HttpStatus.BAD_REQUEST);
