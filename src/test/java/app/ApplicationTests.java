@@ -1,21 +1,15 @@
-package app;
+package jobcafe;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import app.controller.UserController;
+import jobcafe.controller.JUserController;
 
 @SpringBootTest
 class ApplicationTests {
 
 	@Autowired
-	UserController userController;
-
-	@Test
-	void contextLoads() {
-		Assertions.assertNotNull(userController);
-	}
+	JUserController juserController;
 
 }
