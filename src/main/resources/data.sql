@@ -13,14 +13,14 @@ INSERT INTO subscription_plan (label, price, tax) VALUES ('Premium', 15.99, 10.4
 
 
 INSERT INTO juser (email, first_name, last_name, password, is_staff, profile_picture)
-VALUES ('sarah.connor@gmail.com', 'Sarah', 'Connor', 'nope', TRUE, 'https://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
+VALUES ('sarah.connor@gmail.com', 'Sarah', 'Connor', 'nope', TRUE, 'http://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
 INSERT INTO juser (email, first_name, last_name, password, is_staff, profile_picture)
-VALUES ('david.bowie@gmail.com', 'David', 'Bowie', 'yeah', TRUE, 'https://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
+VALUES ('david.bowie@gmail.com', 'David', 'Bowie', 'yeah', TRUE, 'http://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
 
 INSERT INTO juser (email, first_name, last_name, password, phone, profession_label, membership_label, profile_picture)
-VALUES ('john.doe@gmail.com', 'John', 'Doe', '10e06b990d44de0091a2113fd95c92fc905166af147aa7632639c41aa7f26b1620c47443813c605b924c05591c161ecc35944fc69c4433a49d10fc6b04a33611', '080-1111-2222', 'Accountant', 'Basic', 'https://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
+VALUES ('john.doe@gmail.com', 'John', 'Doe', '10e06b990d44de0091a2113fd95c92fc905166af147aa7632639c41aa7f26b1620c47443813c605b924c05591c161ecc35944fc69c4433a49d10fc6b04a33611', '080-1111-2222', 'Accountant', 'Basic', 'http://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
 INSERT INTO juser (email, first_name, last_name, password, phone, profession_label, membership_label, profile_picture)
-VALUES ('jane.doe@gmail.com', 'Jane', 'Doe', '28949888ab4351793b519c5c11cf0aa24d429cab3b83d16762f7eb41ef0e9ab36a8795908305e91b407c210e78d5b5c9e201ec001a0d6a199246ed95f49548ae', '091-3333-4444', 'Clerk Accountant', 'Premium', 'https://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
+VALUES ('jane.doe@gmail.com', 'Jane', 'Doe', '28949888ab4351793b519c5c11cf0aa24d429cab3b83d16762f7eb41ef0e9ab36a8795908305e91b407c210e78d5b5c9e201ec001a0d6a199246ed95f49548ae', '091-3333-4444', 'Clerk Accountant', 'Premium', 'http://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
 
 INSERT INTO payment_method (card_issuer, cardholder_name, card_number, cvv, expiration_date, address, city, postal_code, state_province, country, payer_email)
 VALUES ('MasterCard', 'John Doe', '1111-1111-1111-1111', 111, PARSEDATETIME('2018/11/01', 'yyyy/mm/dd'), '1st street of Washington', 'Seattle', '98105', 'Washington', 'USA', 'john.doe@gmail.com');
