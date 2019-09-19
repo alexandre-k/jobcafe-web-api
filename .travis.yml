@@ -6,3 +6,12 @@ services:
 script:
   - docker build -t jobcafe-api .
   - docker images jobcafe-api
+
+after_success:
+  - docker --version  # document the version travis is using
+  - pip install --user awscli # install aws cli w/o sudo
+  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+  - eval $(aws ecr get-login --no-include-email --region ap-northeast-1)
+  - docker build -t jobcafe .
+  - docker tag jobcafe:latest 429597411641.dkr.ecr.ap-northeast-1.amazonaws.com/jobcafe:latest
+  - docker push 429597411641.dkr.ecr.ap-northeast-1.amazonaws.com/jobcafe:latest
