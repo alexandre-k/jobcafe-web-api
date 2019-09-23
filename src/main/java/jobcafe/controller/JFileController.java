@@ -1,15 +1,11 @@
 package jobcafe.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.UploadPartRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
-import com.amazonaws.services.s3.transfer.Upload;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.WritableResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,22 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Optional;
 
-import jobcafe.model.File;
+import jobcafe.model.JFile;
 import jobcafe.model.JUser;
-import jobcafe.service.FileService;
+import jobcafe.service.JFileService;
 import jobcafe.service.JUserService;
 
 @RestController
-public class FileController {
+public class JFileController {
 
     @Autowired
-    private FileService fileService;
+    private JFileService jfileService;
 
     @Autowired
     private AmazonS3 s3client;
@@ -46,8 +40,8 @@ public class FileController {
 
 
     @GetMapping("/file")
-    public Iterable<File> retrieveFiles(@RequestParam String email) {
-        return fileService.findByUser(email);
+    public Iterable<JFile> retrieveFiles(@RequestParam String email) {
+        return jfileService.findByUser(email);
     }
 
     @PostMapping("/picture")

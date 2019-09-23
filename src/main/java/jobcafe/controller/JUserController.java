@@ -82,6 +82,7 @@ public class JUserController {
 
     @PostMapping("/user/{email}")
     ResponseEntity login(@PathVariable String email, @RequestBody NewPassword password) {
+        System.out.println("************************** LOGIN **********************");
         Optional<JUser> maybeUser = userService.findByEmail(email);
         if (maybeUser.isPresent()) {
             JUser loginUser = maybeUser.get();

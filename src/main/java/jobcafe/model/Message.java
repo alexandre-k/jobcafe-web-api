@@ -1,13 +1,10 @@
 package jobcafe.model;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.net.URI;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,8 +31,7 @@ public class Message {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private Ticket ticket;
-    @CreationTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdDate;
     private URI attachedFile;
 

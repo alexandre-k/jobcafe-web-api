@@ -1,18 +1,14 @@
 package jobcafe.model;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -26,8 +22,7 @@ public class PlanOrder {
     private String id;
     @NotNull
     private Date deliveryEstimate;
-    @CreationTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdDate;
     @OneToOne
     @JoinColumn(referencedColumnName = "email")

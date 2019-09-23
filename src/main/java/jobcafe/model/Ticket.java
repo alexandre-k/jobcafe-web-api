@@ -1,9 +1,8 @@
 package jobcafe.model;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +34,7 @@ public class Ticket {
     private TicketCategory category;
     @NotNull
     private boolean isOpen;
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdDate;
 
     public Ticket(String title, JUser owner, TicketCategory category) {

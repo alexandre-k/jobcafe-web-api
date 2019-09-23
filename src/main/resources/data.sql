@@ -23,9 +23,9 @@ INSERT INTO juser (email, first_name, last_name, password, phone, profession_lab
 VALUES ('jane.doe@gmail.com', 'Jane', 'Doe', '28949888ab4351793b519c5c11cf0aa24d429cab3b83d16762f7eb41ef0e9ab36a8795908305e91b407c210e78d5b5c9e201ec001a0d6a199246ed95f49548ae', '091-3333-4444', 'Clerk Accountant', 'Premium', 'http://jobcafe-bucket.s3-ap-northeast-1.amazonaws.com/profile_picture.png');
 
 INSERT INTO payment_method (card_issuer, cardholder_name, card_number, cvv, expiration_date, address, city, postal_code, state_province, country, payer_email)
-VALUES ('MasterCard', 'John Doe', '1111-1111-1111-1111', 111, PARSEDATETIME('2018/11/01', 'yyyy/mm/dd'), '1st street of Washington', 'Seattle', '98105', 'Washington', 'USA', 'john.doe@gmail.com');
+VALUES ('MasterCard', 'John Doe', '1111-1111-1111-1111', 111, UTC_TIMESTAMP(), '1st street of Washington', 'Seattle', '98105', 'Washington', 'USA', 'john.doe@gmail.com');
 INSERT INTO payment_method (card_issuer, cardholder_name, card_number, cvv, expiration_date, address, city, postal_code, state_province, country, payer_email)
-VALUES ('Visa', 'Jane Doe', '2222-2222-2222-2222', 222, PARSEDATETIME('2010/12/01', 'yyyy/mm/dd'), 'Shimotakaido 8-21-5', 'Tokyo', 'Suginami', '112-2103', 'Tokyo', 'jane.doe@gmail.com');
+VALUES ('Visa', 'Jane Doe', '2222-2222-2222-2222', 222, UTC_TIMESTAMP(), 'Shimotakaido 8-21-5', 'Tokyo', 'Suginami', '112-2103', 'Tokyo', 'jane.doe@gmail.com');
 
 INSERT INTO ticket (title, owner_email, operator_email, category_label, is_open) VALUES ('Houston, I got a problem', 'john.doe@gmail.com', 'sarah.connor@gmail.com', 'Tutorial', true);
 INSERT INTO ticket (title, owner_email, operator_email, category_label, is_open) VALUES ('How to make a pizza', 'john.doe@gmail.com', 'david.bowie@gmail.com', 'Guide', false);
