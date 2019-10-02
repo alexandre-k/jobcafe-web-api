@@ -11,4 +11,4 @@ RUN gradle build
 
 EXPOSE 8089
 
-ENTRYPOINT ["java", "-jar", "/opt/webapi/build/libs/jobcafe-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/webapi/build/libs/jobcafe-0.0.1-snapshot.jar"]
